@@ -23,14 +23,14 @@ public class ApiCallManager {
     private Gson gson;
     private Session session;
 
-    ApiCallManager(Activity activity) {
+    public ApiCallManager(Activity activity) {
         this.activity = activity;
         this.gson = new Gson();
         this.requestQueue = Volley.newRequestQueue(activity);
         this.session = new Session(activity);
     }
 
-    private void executeApiCall(final String URL, final int METHOD, @Nullable final JSONObject jsonObject, final CallbackWithResponse CALLBACK, @Nullable final Callback ON_ERROR_CALLBACK){
+    public void executeApiCall(final String URL, final int METHOD, @Nullable final JSONObject jsonObject, final CallbackWithResponse CALLBACK, @Nullable final Callback ON_ERROR_CALLBACK){
         dev.kevin.app.attendance.helpers.ConnectivityManager.checkConnection(activity,new Callback() {
             @Override
             public void execute() {
@@ -65,7 +65,7 @@ public class ApiCallManager {
         }else if(networkResponse.statusCode == 400){
             String json = new String(networkResponse.data);
             ApiResponse response = gson.fromJson(json,ApiResponse.class);
-            intent.putExtra("message",response.Message);
+            intent.putExtra("message","ERROR CODE 400");
         }else{
             intent.putExtra("message","ERROR      "+networkResponse.statusCode+" Can't Connect to server");
         }

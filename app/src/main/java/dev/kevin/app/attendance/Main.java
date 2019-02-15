@@ -8,17 +8,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import dev.kevin.app.attendance.helpers.Session;
+
 public class Main extends AppCompatActivity {
 
     TextInputLayout tlFname;
     TextView txtFname;
     TextInputLayout tlLname;
     TextView txtLname;
+    Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        session = new Session(this);
 
         tlFname = findViewById(R.id.tlFname);
         txtFname = findViewById(R.id.txtFname);
@@ -64,6 +69,8 @@ public class Main extends AppCompatActivity {
     }
 
     private void proceed(boolean isFront){
+        session.setFname(txtFname.getText().toString());
+        session.setLname(txtLname.getText().toString());
         Intent intent = new Intent(getApplicationContext(),QRScan.class);
         startActivity(intent);
         finish();

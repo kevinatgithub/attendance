@@ -5,15 +5,20 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import java.io.ByteArrayOutputStream;
+
 import dev.kevin.app.attendance.helpers.CameraPreview;
+import dev.kevin.app.attendance.helpers.Session;
 
 public class CapturePhoto extends AppCompatActivity {
 
@@ -25,6 +30,8 @@ public class CapturePhoto extends AppCompatActivity {
     private LinearLayout cameraPreview;
     private boolean cameraFront = true;
     public static Bitmap bitmap;
+    private String base64converted;
+    Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +40,8 @@ public class CapturePhoto extends AppCompatActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         myContext = this;
+
+        session = new Session(myContext);
 
         mCamera =  Camera.open();
         mCamera.setDisplayOrientation(90);
@@ -156,11 +165,37 @@ public class CapturePhoto extends AppCompatActivity {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
                 bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-                Intent intent = new Intent(CapturePhoto.this,SubmitResult.class);
-                startActivity(intent);
-                finish();
+                performBase64Convertion(bitmap);
+
             }
         };
         return picture;
+    }
+
+    private void performBase64Convertion(final Bitmap imageBitmap) {
+        new AsyncTask<Void,Void,String>(){
+            @Override
+            protected String doInBackground(Void... voids) {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                byte[] b = baos.toByteArray();
+
+                return Base64.encodeToString(b,Base64.NO_WRAP);
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                base64converted = s;
+                super.onPostExecute(s);
+                proceed();
+            }
+        }.execute();
+    }
+
+    void proceed(){
+        session.setPhoto(base64converted);
+        Intent intent = new Intent(this,SubmitResult.class);
+        startActivity(intent);
+        finish();
     }
 }
