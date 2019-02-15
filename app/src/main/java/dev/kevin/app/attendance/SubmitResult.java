@@ -30,5 +30,7 @@ public class SubmitResult extends AppCompatActivity {
                 finish();
             }
         });
+
+        
     }
 }
