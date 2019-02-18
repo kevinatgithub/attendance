@@ -102,21 +102,11 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:text="USE FRONT CAMERA"
+                android:text="START"
                 app:backgroundTint="@color/colorPrimaryDark"
                 tools:layout_editor_absoluteX="26dp"
                 tools:layout_editor_absoluteY="356dp" />
 
-            <android.support.design.button.MaterialButton
-                android:id="@+id/btnProceedBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:layout_weight="1"
-                android:text="USE BACK CAMERA"
-                app:backgroundTint="@color/colorPrimaryDark"
-                tools:layout_editor_absoluteX="203dp"
-                tools:layout_editor_absoluteY="246dp" />
         </LinearLayout>
 
     </android.support.constraint.ConstraintLayout>

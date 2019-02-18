@@ -33,4 +33,5 @@ dependencies {
     implementation('com.google.android.gms:play-services:9.8.0') {
         exclude module: 'support-v4'
     }
+    implementation 'com.github.AppIntro:AppIntro:v4.2.3'
 }

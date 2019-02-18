@@ -40,15 +40,7 @@ public class Main extends AppCompatActivity {
             }
         });
 
-        Button btnProceedBack = findViewById(R.id.btnProceedBack);
-        btnProceedBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(validateForm()){
-                    proceed(false);
-                }
-            }
-        });
+
 
     }
 
