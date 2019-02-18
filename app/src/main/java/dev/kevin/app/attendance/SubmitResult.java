@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
@@ -64,21 +65,23 @@ public class SubmitResult extends AppCompatActivity {
         String domain = session.getDomain(AppConstants.DEFAULT_DOMAIN);
         String URL = domain+"/validateQR/"+session.getQRCode();
 
-        apiCallManager.executeApiCall(URL, Request.Method.GET, null, new CallbackWithResponse() {
-            @Override
-            public void execute(JSONObject response) {
-                ValidateQRResponse apiResponse = gson.fromJson(response.toString(),ValidateQRResponse.class);
-                if(apiResponse.isValid()){
-                    successCallback.execute();
-                }else{
-                    imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_failed));
-                    txtStatus.setText("Failed to verify QR Code. \nPlease check if the QR Code is valid for the event.");
-                    txtStatus.setTextColor(getResources().getColor(R.color.colorAccent));
-                    imgStatus.setVisibility(View.VISIBLE);
-                    txtStatus.setVisibility(View.VISIBLE);
-                }
-            }
-        },null);
+        successCallback.execute();
+
+//        apiCallManager.executeApiCall(URL, Request.Method.GET, null, new CallbackWithResponse() {
+//            @Override
+//            public void execute(JSONObject response) {
+//                ValidateQRResponse apiResponse = gson.fromJson(response.toString(),ValidateQRResponse.class);
+//                if(apiResponse.isValid()){
+//                    successCallback.execute();
+//                }else{
+//                    imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_failed));
+//                    txtStatus.setText("Failed to verify QR Code. \nPlease check if the QR Code is valid for the event.");
+//                    txtStatus.setTextColor(getResources().getColor(R.color.colorAccent));
+//                    imgStatus.setVisibility(View.VISIBLE);
+//                    txtStatus.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        },null);
     }
 
     private class ValidateQRResponse{
@@ -102,7 +105,7 @@ public class SubmitResult extends AppCompatActivity {
             jsonObject.put("qrcode",session.getQRCode());
             jsonObject.put("fname",session.getFname());
             jsonObject.put("lname",session.getLname());
-//            jsonObject.put("photo",photo);
+            jsonObject.put("photo",photo);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -111,7 +114,7 @@ public class SubmitResult extends AppCompatActivity {
             @Override
             public void execute(JSONObject response) {
                 clearSessionData();
-
+                Toast.makeText(SubmitResult.this, response.toString(), Toast.LENGTH_SHORT).show();
                 imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_success));
                 txtStatus.setText("Your attendance has successfully been submitted!");
                 txtStatus.setTextColor(getResources().getColor(R.color.colorPrimary));

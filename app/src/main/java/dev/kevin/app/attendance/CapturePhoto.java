@@ -172,12 +172,28 @@ public class CapturePhoto extends AppCompatActivity {
         return picture;
     }
 
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float) width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
     private void performBase64Convertion(final Bitmap imageBitmap) {
         new AsyncTask<Void,Void,String>(){
             @Override
             protected String doInBackground(Void... voids) {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                imageBitmap.compress(Bitmap.CompressFormat.JPEG,100,baos);
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG,50,baos);
                 byte[] b = baos.toByteArray();
 
                 return Base64.encodeToString(b,Base64.NO_WRAP);
