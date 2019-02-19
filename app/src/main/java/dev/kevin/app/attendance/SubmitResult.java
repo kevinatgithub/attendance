@@ -114,10 +114,17 @@ public class SubmitResult extends AppCompatActivity {
             @Override
             public void execute(JSONObject response) {
                 clearSessionData();
-                Toast.makeText(SubmitResult.this, response.toString(), Toast.LENGTH_SHORT).show();
-                imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_success));
-                txtStatus.setText("Your attendance has successfully been submitted!");
-                txtStatus.setTextColor(getResources().getColor(R.color.colorPrimary));
+//                Toast.makeText(SubmitResult.this, response.toString(), Toast.LENGTH_SHORT).show();
+                ApiResponse apiResponse = gson.fromJson(response.toString(),ApiResponse.class);
+                if(apiResponse.getStatus().toUpperCase().equals("OK")){
+                    imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_success));
+                    txtStatus.setText("Your attendance has successfully been submitted!");
+                    txtStatus.setTextColor(getResources().getColor(R.color.colorPrimary));
+                }else{
+                    imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_failed));
+                    txtStatus.setText("Validation failed, Please check QR Code!");
+                    txtStatus.setTextColor(getResources().getColor(R.color.colorAccent));
+                }
                 imgStatus.setVisibility(View.VISIBLE);
                 txtStatus.setVisibility(View.VISIBLE);
             }
@@ -129,5 +136,18 @@ public class SubmitResult extends AppCompatActivity {
         session.removeFname();
         session.removeLname();
         session.removePhoto();
+    }
+
+    private class ApiResponse{
+
+        private String status;
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
+        }
     }
 }
