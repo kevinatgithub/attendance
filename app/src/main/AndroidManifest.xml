@@ -24,17 +24,17 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
         <activity android:name=".Introduction">
+
+        </activity>
+        <activity android:name=".Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main">
-
-        </activity>
-        <activity android:name=".QRScan" />
-        <activity android:name=".CapturePhoto" />
+        <activity android:name=".QRScan" android:theme="@style/Theme.noAnim" />
+        <activity android:name=".CapturePhoto" android:theme="@style/Theme.noAnim" />
         <activity android:name=".SubmitResult" />
         <activity android:name=".ShowServerResponse" />
         <activity android:name=".Settings"></activity>

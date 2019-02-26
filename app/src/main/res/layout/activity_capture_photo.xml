@@ -14,18 +14,23 @@
 
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:gravity="bottom|center"
         android:orientation="horizontal">
 
-        <Button
+        <TextView
+            android:id="@+id/lblTimer"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnCam"
-            android:textSize="15sp"
-            android:text="Take Photo"/>
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|center_horizontal|center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="50sp" />
 
     </LinearLayout>
 

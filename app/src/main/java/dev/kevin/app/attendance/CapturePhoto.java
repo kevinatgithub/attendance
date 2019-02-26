@@ -1,31 +1,33 @@
 package dev.kevin.app.attendance;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.io.ByteArrayOutputStream;
 
 import dev.kevin.app.attendance.helpers.CameraPreview;
 import dev.kevin.app.attendance.helpers.Session;
 
-public class CapturePhoto extends AppCompatActivity {
+public class CapturePhoto extends Activity {
 
+    private TextView lblTimer;
     private Camera mCamera;
     private CameraPreview mPreview;
     private Camera.PictureCallback mPicture;
-    private Button capture, switchCamera;
     private Context myContext;
     private LinearLayout cameraPreview;
     private boolean cameraFront = true;
@@ -43,19 +45,26 @@ public class CapturePhoto extends AppCompatActivity {
 
         session = new Session(myContext);
 
+        lblTimer = findViewById(R.id.lblTimer);
         mCamera =  Camera.open();
         mCamera.setDisplayOrientation(90);
         cameraPreview = findViewById(R.id.cPreview);
         mPreview = new CameraPreview(myContext, mCamera);
         cameraPreview.addView(mPreview);
 
-        capture = findViewById(R.id.btnCam);
-        capture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        new CountDownTimer(10000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                lblTimer.setText(((millisUntilFinished / 1000)+1) + "");
+            }
+
+            public void onFinish() {
                 mCamera.takePicture(null, null, mPicture);
             }
-        });
+
+        }.start();
+
+//        mCamera.takePicture(null, null, mPicture);
 
 //        mCamera.startPreview();
         releaseCamera();

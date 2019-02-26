@@ -21,6 +21,7 @@ import dev.kevin.app.attendance.helpers.AppConstants;
 import dev.kevin.app.attendance.helpers.Callback;
 import dev.kevin.app.attendance.helpers.CallbackWithResponse;
 import dev.kevin.app.attendance.helpers.Session;
+import dev.kevin.app.attendance.models.Member;
 
 public class SubmitResult extends AppCompatActivity {
 
@@ -99,12 +100,13 @@ public class SubmitResult extends AppCompatActivity {
 
     private void submitResult(){
         String URL = session.getDomain(AppConstants.DEFAULT_DOMAIN)+"/submit";
-
+        Member member = session.getMember();
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("qrcode",session.getQRCode());
-            jsonObject.put("fname",session.getFname());
-            jsonObject.put("lname",session.getLname());
+            jsonObject.put("member_id",member.getId());
+            jsonObject.put("fname",member.getFname());
+            jsonObject.put("lname",member.getLname());
             jsonObject.put("photo",photo);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -133,8 +135,7 @@ public class SubmitResult extends AppCompatActivity {
 
     private void clearSessionData() {
         session.removeQRCode();
-        session.removeFname();
-        session.removeLname();
+        session.removeMember();
         session.removePhoto();
     }
 

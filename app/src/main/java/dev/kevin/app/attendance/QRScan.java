@@ -1,6 +1,7 @@
 package dev.kevin.app.attendance;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -24,7 +25,7 @@ import dev.kevin.app.attendance.helpers.Session;
 
 import static com.google.android.gms.vision.CameraSource.CAMERA_FACING_FRONT;
 
-public class QRScan extends AppCompatActivity {
+public class QRScan extends Activity {
 
     SurfaceView cameraPreview;
     TextView txtPreview;

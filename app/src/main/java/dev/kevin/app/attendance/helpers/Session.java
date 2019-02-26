@@ -6,6 +6,8 @@ import android.preference.PreferenceManager;
 
 import com.google.gson.Gson;
 
+import dev.kevin.app.attendance.models.Member;
+
 public class Session {
 
     private SharedPreferences prefs;
@@ -32,36 +34,20 @@ public class Session {
         prefs.edit().remove("qrcode").commit();
     }
 
-    public void setFname(String fname){
-        prefs.edit().putString("fname",fname).commit();
+    public void setMember(Member member){
+        prefs.edit().putString("member",gson.toJson(member)).commit();
     }
 
-    public String getFname(){
-        String fname = prefs.getString("fname","");
-        if(fname.equals("")){
+    public Member getMember(){
+        String memberStr = prefs.getString("member","");
+        if(memberStr.equals("")){
             return null;
         }
-        return fname;
+        return gson.fromJson(memberStr,Member.class);
     }
 
-    public void removeFname(){
-        prefs.edit().remove("fname").commit();
-    }
-
-    public void setLname(String lname){
-        prefs.edit().putString("lname",lname).commit();
-    }
-
-    public String getLname(){
-        String lname = prefs.getString("lname","");
-        if(lname.equals("")){
-            return null;
-        }
-        return lname;
-    }
-
-    public void removeLname(){
-        prefs.edit().remove("lname").commit();
+    public void removeMember(){
+        prefs.edit().remove("member").commit();
     }
 
     public void setPhoto(String photo){
