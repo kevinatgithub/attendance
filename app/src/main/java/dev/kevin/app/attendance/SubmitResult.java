@@ -7,6 +7,7 @@ import android.telecom.Call;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,17 +17,22 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import dev.kevin.app.attendance.helpers.ApiCallManager;
 import dev.kevin.app.attendance.helpers.AppConstants;
+import dev.kevin.app.attendance.helpers.AttendanceRowAdapter;
 import dev.kevin.app.attendance.helpers.Callback;
 import dev.kevin.app.attendance.helpers.CallbackWithResponse;
 import dev.kevin.app.attendance.helpers.Session;
+import dev.kevin.app.attendance.models.Attendance;
 import dev.kevin.app.attendance.models.Member;
 
 public class SubmitResult extends AppCompatActivity {
 
     ImageView imgStatus;
     TextView txtStatus;
+    ListView lvHistory;
     ApiCallManager apiCallManager;
     Session session;
     Gson gson;
@@ -43,6 +49,7 @@ public class SubmitResult extends AppCompatActivity {
         gson = new Gson();
         imgStatus = findViewById(R.id.imgStatus);
         txtStatus = findViewById(R.id.txtStatus);
+        lvHistory = findViewById(R.id.lvHistory);
 
         Button btnReturn = findViewById(R.id.btnReturn);
         btnReturn.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +126,9 @@ public class SubmitResult extends AppCompatActivity {
 //                Toast.makeText(SubmitResult.this, response.toString(), Toast.LENGTH_SHORT).show();
                 ApiResponse apiResponse = gson.fromJson(response.toString(),ApiResponse.class);
                 if(apiResponse.getStatus().toUpperCase().equals("OK")){
+                    if(apiResponse.getAttendances().size() > 0){
+                        populateAttendancesListView(apiResponse.getAttendances());
+                    }
                     imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_success));
                     txtStatus.setText("Your attendance has successfully been submitted!");
                     txtStatus.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -133,6 +143,12 @@ public class SubmitResult extends AppCompatActivity {
         },null);
     }
 
+    private void populateAttendancesListView(ArrayList<Attendance> attendances) {
+        AttendanceRowAdapter attendanceRowAdapter = new AttendanceRowAdapter(getApplicationContext(),attendances);
+        lvHistory.setAdapter(attendanceRowAdapter);
+
+    }
+
     private void clearSessionData() {
         session.removeQRCode();
         session.removeMember();
@@ -143,12 +159,27 @@ public class SubmitResult extends AppCompatActivity {
 
         private String status;
 
+        private ArrayList<Attendance> attendances;
+
+        public ApiResponse(String status, ArrayList<Attendance> attendances) {
+            this.status = status;
+            this.attendances = attendances;
+        }
+
         public String getStatus() {
             return status;
         }
 
         public void setStatus(String status) {
             this.status = status;
+        }
+
+        public ArrayList<Attendance> getAttendances() {
+            return attendances;
+        }
+
+        public void setAttendances(ArrayList<Attendance> attendances) {
+            this.attendances = attendances;
         }
     }
 }

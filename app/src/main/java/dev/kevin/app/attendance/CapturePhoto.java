@@ -9,6 +9,7 @@ import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -51,10 +52,14 @@ public class CapturePhoto extends Activity {
         cameraPreview = findViewById(R.id.cPreview);
         mPreview = new CameraPreview(myContext, mCamera);
         cameraPreview.addView(mPreview);
+        final Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(VIBRATOR_SERVICE);
 
         new CountDownTimer(10000, 1000) {
 
             public void onTick(long millisUntilFinished) {
+                if((millisUntilFinished / 1000) < 5){
+                    vibrator.vibrate(100);
+                }
                 lblTimer.setText(((millisUntilFinished / 1000)+1) + "");
             }
 

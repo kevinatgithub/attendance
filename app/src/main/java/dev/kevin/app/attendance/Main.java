@@ -1,11 +1,13 @@
 package dev.kevin.app.attendance;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -116,6 +118,7 @@ public class Main extends AppCompatActivity {
                 ApiResponse apiResponse = gson.fromJson(response.toString(),ApiResponse.class);
                 if(apiResponse.member != null){
                     member = apiResponse.member;
+                    hideKeyboard();
                     confirm();
                 }else{
                     showVerificationFailed();
@@ -172,7 +175,12 @@ public class Main extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(),QRScan.class);
         startActivity(intent);
 //        finish();
+        session.setMember(member);
+    }
 
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
         txtFname.setText("");
         txtLname.setText("");
         tlFname.setError(null);
@@ -182,6 +190,16 @@ public class Main extends AppCompatActivity {
         lblPrcNo.setText("Not Set");
         cl_step2.setVisibility(View.VISIBLE);
         cl_confirm.setVisibility(View.INVISIBLE);
-        session.setMember(member);
+    }
+
+    public void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(this);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

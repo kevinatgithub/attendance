@@ -64,7 +64,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="true"
-                android:inputType="text"
+                android:inputType="text|textCapCharacters|textCapWords"
                 android:maxLines="1"
                 android:scrollHorizontally="true" />
         </android.support.design.widget.TextInputLayout>
@@ -85,7 +85,7 @@
                 android:id="@+id/txtLname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="text|textCapCharacters|textCapWords"
                 android:maxLines="1"
                 android:scrollHorizontally="true" />
         </android.support.design.widget.TextInputLayout>
