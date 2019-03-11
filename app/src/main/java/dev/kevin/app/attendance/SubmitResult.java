@@ -1,6 +1,7 @@
 package dev.kevin.app.attendance;
 
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telecom.Call;
@@ -106,15 +107,16 @@ public class SubmitResult extends AppCompatActivity {
     }
 
     private void submitResult(){
+        String qrcode[] = session.getQRCode().split("\\|");
         String URL = session.getDomain(AppConstants.DEFAULT_DOMAIN)+"/submit";
         Member member = session.getMember();
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("qrcode",session.getQRCode());
+            jsonObject.put("event_id",qrcode[0]);
+            jsonObject.put("day",qrcode[1]);
             jsonObject.put("member_id",member.getId());
-            jsonObject.put("fname",member.getFname());
-            jsonObject.put("lname",member.getLname());
             jsonObject.put("photo",photo);
+            jsonObject.put("session",qrcode[2]);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -123,8 +125,9 @@ public class SubmitResult extends AppCompatActivity {
             @Override
             public void execute(JSONObject response) {
                 clearSessionData();
-//                Toast.makeText(SubmitResult.this, response.toString(), Toast.LENGTH_SHORT).show();
                 ApiResponse apiResponse = gson.fromJson(response.toString(),ApiResponse.class);
+                ConstraintLayout cl_status = findViewById(R.id.cl_status);
+                cl_status.setVisibility(View.VISIBLE);
                 if(apiResponse.getStatus().toUpperCase().equals("OK")){
                     if(apiResponse.getAttendances().size() > 0){
                         populateAttendancesListView(apiResponse.getAttendances());

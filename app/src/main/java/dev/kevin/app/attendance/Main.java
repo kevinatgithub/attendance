@@ -2,6 +2,7 @@ package dev.kevin.app.attendance;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -11,8 +12,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.google.android.gms.vision.barcode.Barcode;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -24,6 +27,10 @@ import dev.kevin.app.attendance.helpers.Callback;
 import dev.kevin.app.attendance.helpers.CallbackWithResponse;
 import dev.kevin.app.attendance.helpers.Session;
 import dev.kevin.app.attendance.models.Member;
+
+import static dev.kevin.app.attendance.helpers.AppConstants.BARCODE_SCAN;
+import static dev.kevin.app.attendance.helpers.AppConstants.DEFAULT_DOMAIN;
+import static dev.kevin.app.attendance.helpers.AppConstants.RESULT_BARCODE_SCAN_SUCCESS;
 
 public class Main extends AppCompatActivity {
 
@@ -72,8 +79,46 @@ public class Main extends AppCompatActivity {
             }
         });
 
+        Button btnScanBarcode = findViewById(R.id.btnScanBarcode);
+        btnScanBarcode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),BarcodeScan.class);
+                startActivityForResult(intent,BARCODE_SCAN);
+            }
+        });
 
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch(requestCode){
+            case BARCODE_SCAN:
+                if(resultCode == RESULT_BARCODE_SCAN_SUCCESS){
+                    final String BARCODE_VALUE = data.getStringExtra("BARCODE").replace("emp","");
+                    fetchMemberDetails(BARCODE_VALUE);
+                }
+                break;
+        }
+    }
+
+    private void fetchMemberDetails(String barcode_value) {
+        String URL = session.getDomain(DEFAULT_DOMAIN) + "/validateID/"+barcode_value;
+        apiCallManager.executeApiCall(URL, Request.Method.GET, null, new CallbackWithResponse() {
+            @Override
+            public void execute(JSONObject response) {
+                ApiResponse apiResponse = gson.fromJson(response.toString(),ApiResponse.class);
+                if(apiResponse.member != null){
+                    member = apiResponse.member;
+                    hideKeyboard();
+                    confirm();
+                }else{
+                    showVerificationFailed();
+                }
+            }
+        },null);
     }
 
     @Override

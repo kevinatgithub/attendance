@@ -33,6 +33,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".BarcodeScan" android:theme="@style/Theme.noAnim" />
         <activity android:name=".QRScan" android:theme="@style/Theme.noAnim" />
         <activity android:name=".CapturePhoto" android:theme="@style/Theme.noAnim" />
         <activity android:name=".SubmitResult" />
