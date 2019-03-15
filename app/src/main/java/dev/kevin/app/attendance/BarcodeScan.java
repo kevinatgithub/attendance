@@ -48,6 +48,7 @@ public class BarcodeScan extends Activity {
         barcodeDetector = new BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.CODE_128).build();
         cameraSource = new CameraSource.Builder(this, barcodeDetector)
                 .setFacing(CAMERA_FACING_BACK)
+                .setAutoFocusEnabled(true)
                 .build();
 
         cameraPreview.getHolder().addCallback(new SurfaceHolder.Callback() {

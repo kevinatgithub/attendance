@@ -46,6 +46,7 @@ public class QRScan extends Activity {
         barcodeDetector = new BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.QR_CODE).build();
         cameraSource = new CameraSource.Builder(this, barcodeDetector)
                 .setFacing(CAMERA_FACING_FRONT)
+                .setAutoFocusEnabled(true)
                 .build();
 
         cameraPreview.getHolder().addCallback(new SurfaceHolder.Callback() {

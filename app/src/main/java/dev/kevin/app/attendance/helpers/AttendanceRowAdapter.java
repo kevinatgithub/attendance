@@ -29,17 +29,28 @@ public class AttendanceRowAdapter extends ArrayAdapter<Attendance> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.history_row, parent,false);
         }
 
+        String type;
+
+        if(attendance.getType() == 1){
+            type = "Time IN";
+        }else{
+            type = "Time OUT";
+        }
+
+        String session;
+
+        if(attendance.getSession().toUpperCase().equals("AM")){
+            session = "Morning";
+        }else if(attendance.getSession().toUpperCase().equals("PM")){
+            session = "Afternoon";
+        }else{
+            session = "Business Meeting";
+        }
+
         TextView lblDate = convertView.findViewById(R.id.lblDate);
         TextView lblEventTitle = convertView.findViewById(R.id.lblEventTitle);
         lblDate.setText(attendance.getCreated_at());
-        if(attendance.getEvent_a_m() != null){
-            lblEventTitle.setText(attendance.getEvent_a_m().getTitle());
-        }else if(attendance.getEvent_p_m() != null){
-            lblEventTitle.setText(attendance.getEvent_p_m().getTitle());
-        }else{
-            lblEventTitle.setText("Not Set");
-        }
-
+        lblEventTitle.setText(attendance.getEvnt().getTitle() + " - Day " + attendance.getDay() + " " + session + "\n" + type);
         return convertView;
     }
 

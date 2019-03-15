@@ -40,10 +40,11 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
             android:gravity="center_horizontal"
-            android:text="Please enter your name below then tap button to proceed."
+            android:text="You may enter your name below, and tap verify\nOr You may Scan your ID barcode."
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="18dp"/>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/tlFname"
@@ -97,12 +98,12 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pbLoading">
 
-            <android.support.design.button.MaterialButton
+            <Button
                 android:id="@+id/btnProceedFront"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -113,7 +114,7 @@
                 tools:layout_editor_absoluteX="26dp"
                 tools:layout_editor_absoluteY="356dp" />
 
-            <android.support.design.button.MaterialButton
+            <Button
                 android:id="@+id/btnScanBarcode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -146,6 +147,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
 
+        android:padding="8px"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -218,7 +220,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:fontFamily="cursive"
             android:text="Not Set"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -253,17 +254,17 @@
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lblPrcNo">
+            app:layout_constraintTop_toBottomOf="@+id/textView6">
 
-            <android.support.design.button.MaterialButton
+            <Button
                 android:id="@+id/btnNo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -271,7 +272,7 @@
                 android:layout_weight="1"
                 android:text="No" />
 
-            <android.support.design.button.MaterialButton
+            <Button
                 android:id="@+id/btnProceed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -280,6 +281,23 @@
                 android:text="Yes"
                 app:backgroundTint="@color/colorPrimaryDark" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:gravity="center_horizontal"
+            android:padding="16px"
+            android:text="Stand with the QR Code behind you and tap Yes.\nMake sure the QR code is seen on the\nPhone Camera Screen."
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lblPrcNo" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -181,8 +181,16 @@ public class Main extends AppCompatActivity {
         cl_step2.setVisibility(View.INVISIBLE);
         cl_confirm.setVisibility(View.VISIBLE);
         lblMemberName.setText(member.getFname() + " " + member.getLname());
-        lblAffiliation.setText(member.getAffiliation());
-        lblPrcNo.setText(member.getPrc_no());
+        String affiliation = member.getAffiliation();
+        if(member.getAffiliation() == null || member.getAffiliation().equals("")){
+            affiliation = "Not Set";
+        }
+        lblAffiliation.setText(affiliation);
+        String prc_no = member.getPrc_no();
+        if(member.getPrc_no() == null || member.getPrc_no().equals("")){
+            prc_no = "Not Set";
+        }
+        lblPrcNo.setText(prc_no);
 
         Button btnYes = findViewById(R.id.btnProceed);
         btnYes.setOnClickListener(new View.OnClickListener() {
