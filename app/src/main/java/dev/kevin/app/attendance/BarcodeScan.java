@@ -92,20 +92,21 @@ public class BarcodeScan extends Activity {
                     txtPreview.post(new Runnable() {
                         @Override
                         public void run() {
-                            Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(VIBRATOR_SERVICE);
-                            vibrator.vibrate(100);
-                            if(cameraSource != null){
-//                                cameraSource.release();
-                            }
-                            Intent resultIntent = new Intent();
-                            resultIntent.putExtra("BARCODE",qrcodes.valueAt(0).displayValue);
-                            setResult(RESULT_BARCODE_SCAN_SUCCESS,resultIntent);
-                            finish();
+                            assignBarcode(qrcodes.valueAt(0).displayValue);
                         }
                     });
                 }
             }
         });
+    }
+
+    private void assignBarcode(String barcode) {
+        Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(VIBRATOR_SERVICE);
+        vibrator.vibrate(100);
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("BARCODE",barcode);
+        setResult(RESULT_BARCODE_SCAN_SUCCESS,resultIntent);
+        finish();
     }
 
     @Override

@@ -98,21 +98,23 @@ public class QRScan extends Activity {
                     txtPreview.post(new Runnable() {
                         @Override
                         public void run() {
-                            Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(VIBRATOR_SERVICE);
-                            vibrator.vibrate(100);
-//                            txtPreview.setText(qrcodes.valueAt(0).displayValue);
-//                            cameraSource.stop();
-                            cameraSource.release();
-//                            cameraSource = null;
-                            session.setQRCode(qrcodes.valueAt(0).displayValue);
-                            Intent intent = new Intent(getApplicationContext(),CapturePhoto.class);
-                            startActivity(intent);
-                            finish();
+                            assignQR(qrcodes.valueAt(0).displayValue);
                         }
                     });
                 }
             }
         });
+
+    }
+
+    private void assignQR(String qrcode) {
+        Vibrator vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
+        vibrator.vibrate(100);
+        cameraSource.release();
+        session.setQRCode(qrcode);
+        Intent intent = new Intent(getApplicationContext(),CapturePhoto.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override

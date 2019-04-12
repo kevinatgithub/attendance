@@ -41,6 +41,7 @@ public class SubmitResult extends AppCompatActivity {
     Session session;
     Gson gson;
     String photo;
+    ConstraintLayout cl_status, cl_exists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,8 @@ public class SubmitResult extends AppCompatActivity {
         imgStatus = findViewById(R.id.imgStatus);
         txtStatus = findViewById(R.id.txtStatus);
         lvHistory = findViewById(R.id.lvHistory);
+        cl_status = findViewById(R.id.cl_status);
+        cl_exists = findViewById(R.id.cl_exists);
 
         Button btnReturn = findViewById(R.id.btnReturn);
         btnReturn.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +74,10 @@ public class SubmitResult extends AppCompatActivity {
 
     private void submitResult(){
         String qrcode[] = session.getQRCode().split("\\|");
+        if(qrcode.length != 3){
+            showInvalidQRDisplay();
+            return;
+        }
         String URL = session.getDomain(AppConstants.DEFAULT_DOMAIN)+"/submit";
         Member member = session.getMember();
         JSONObject jsonObject = new JSONObject();
@@ -93,8 +100,22 @@ public class SubmitResult extends AppCompatActivity {
         },null);
     }
 
+    private void showInvalidQRDisplay() {
+        cl_status.setVisibility(View.VISIBLE);
+        clearSessionData();
+        imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_failed));
+        txtStatus.setText("You have scanned an invalid QR code\nPlease make sure that you scan a Valid Event\nQR code or approach an event organizer for assistance.");
+        txtStatus.setTextColor(getResources().getColor(R.color.colorAccent));
+        imgStatus.setVisibility(View.VISIBLE);
+        txtStatus.setVisibility(View.VISIBLE);
+    }
+
     private void submitSignOut() {
         String qrcode[] = session.getQRCode().split("\\|");
+        if(qrcode.length != 3){
+            showInvalidQRDisplay();
+            return;
+        }
         String url = session.getDomain(AppConstants.DEFAULT_DOMAIN)+"/signout";
         Member member = session.getMember();
         JSONObject jsonObject = new JSONObject();
@@ -120,8 +141,7 @@ public class SubmitResult extends AppCompatActivity {
 
     private void handleApiResponse(ApiResponse apiResponse) {
 
-        ConstraintLayout cl_status = findViewById(R.id.cl_status);
-        ConstraintLayout cl_exists = findViewById(R.id.cl_exists);
+
 
         cl_status.setVisibility(View.VISIBLE);
         if(apiResponse.getStatus().toUpperCase().equals("OK")) {
@@ -167,7 +187,7 @@ public class SubmitResult extends AppCompatActivity {
     }
 
     private void populateAttendancesListView(ArrayList<Attendance> attendances) {
-        AttendanceRowAdapter attendanceRowAdapter = new AttendanceRowAdapter(getApplicationContext(),attendances);
+        AttendanceRowAdapter attendanceRowAdapter = new AttendanceRowAdapter(SubmitResult.this,attendances);
         lvHistory.setAdapter(attendanceRowAdapter);
     }
 

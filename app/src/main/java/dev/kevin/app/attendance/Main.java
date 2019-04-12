@@ -23,6 +23,7 @@ import org.json.JSONObject;
 
 import dev.kevin.app.attendance.helpers.ApiCallManager;
 import dev.kevin.app.attendance.helpers.AppConstants;
+import dev.kevin.app.attendance.helpers.AppHelper;
 import dev.kevin.app.attendance.helpers.Callback;
 import dev.kevin.app.attendance.helpers.CallbackWithResponse;
 import dev.kevin.app.attendance.helpers.Session;
@@ -53,6 +54,8 @@ public class Main extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        UpdateChecker.checkUpdate(this);
 
         session = new Session(this);
         gson = new Gson();
@@ -105,7 +108,7 @@ public class Main extends AppCompatActivity {
     }
 
     private void fetchMemberDetails(String barcode_value) {
-        String URL = session.getDomain(DEFAULT_DOMAIN) + "/validateID/"+barcode_value;
+        String URL = session.getDomain(DEFAULT_DOMAIN) + "/validateID/"+AppHelper.urlEncode(barcode_value);
         apiCallManager.executeApiCall(URL, Request.Method.GET, null, new CallbackWithResponse() {
             @Override
             public void execute(JSONObject response) {
