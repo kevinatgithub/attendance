@@ -7,15 +7,14 @@ import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.google.android.gms.vision.barcode.Barcode;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -24,9 +23,10 @@ import org.json.JSONObject;
 import dev.kevin.app.attendance.helpers.ApiCallManager;
 import dev.kevin.app.attendance.helpers.AppConstants;
 import dev.kevin.app.attendance.helpers.AppHelper;
-import dev.kevin.app.attendance.helpers.Callback;
 import dev.kevin.app.attendance.helpers.CallbackWithResponse;
+import dev.kevin.app.attendance.helpers.GlobalSettingsManager;
 import dev.kevin.app.attendance.helpers.Session;
+import dev.kevin.app.attendance.helpers.UpdateChecker;
 import dev.kevin.app.attendance.models.Member;
 
 import static dev.kevin.app.attendance.helpers.AppConstants.BARCODE_SCAN;
@@ -49,13 +49,18 @@ public class Main extends AppCompatActivity {
     ApiCallManager apiCallManager;
     Gson gson;
     Member member;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        toolbar = findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+
         UpdateChecker.checkUpdate(this);
+        loadEventTitle();
 
         session = new Session(this);
         gson = new Gson();
@@ -91,6 +96,32 @@ public class Main extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.btnShowAttendances).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(member == null){
+                    return;
+                }
+
+                Intent intent = new Intent(Main.this,PreviousAttendances.class);
+                intent.putExtra("id",String.valueOf(member.getId()));
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void loadEventTitle() {
+        GlobalSettingsManager.getConfig(this, new GlobalSettingsManager.GlobalSettingsCallback() {
+            @Override
+            public void apply(GlobalSettingsManager.GlobalSettingsResponse response) {
+                if(response.getTitle() != null){
+                    toolbar.setTitle(response.getTitle());
+                }else{
+                    toolbar.setTitle("Attend Event");
+                }
+            }
+        });
     }
 
     @Override

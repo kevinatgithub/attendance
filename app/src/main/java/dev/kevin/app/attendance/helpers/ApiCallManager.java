@@ -61,13 +61,13 @@ public class ApiCallManager {
 
         Intent intent = new Intent(activity,ShowServerResponse.class);
         if(networkResponse == null){
-            intent.putExtra("message","NETWORK ERROR \n Can't Connect to server" );
+            intent.putExtra("message","NETWORK ERROR \n Can't Connect to server. Please check if you have Internet connection then tap Try Again." );
         }else if(networkResponse.statusCode == 400){
             String json = new String(networkResponse.data);
             ApiResponse response = gson.fromJson(json,ApiResponse.class);
             intent.putExtra("message","ERROR CODE 400");
         }else{
-            intent.putExtra("message","ERROR      "+networkResponse.statusCode+" Can't Connect to server");
+            intent.putExtra("message","ERROR "+networkResponse.statusCode+"\nCan't Connect to server.\nPlease show this message to the PSP Attendance\nsupport for assistance.");
         }
         activity.startActivity(intent);
     }

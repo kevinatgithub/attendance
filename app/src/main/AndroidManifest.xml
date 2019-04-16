@@ -22,9 +22,8 @@
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
-        <activity android:name=".Introduction">
 
-        </activity>
+        <activity android:name=".Introduction"></activity>
         <activity android:name=".Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,12 +31,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BarcodeScan" android:theme="@style/Theme.noAnim" />
-        <activity android:name=".QRScan" android:theme="@style/Theme.noAnim" />
-        <activity android:name=".CapturePhoto" android:theme="@style/Theme.noAnim" />
+        <activity
+            android:name=".BarcodeScan"
+            android:theme="@style/Theme.noAnim" />
+        <activity
+            android:name=".QRScan"
+            android:theme="@style/Theme.noAnim" />
+        <activity
+            android:name=".CapturePhoto"
+            android:theme="@style/Theme.noAnim" />
         <activity android:name=".SubmitResult" />
         <activity android:name=".ShowServerResponse" />
-        <activity android:name=".Settings"></activity>
+        <activity android:name=".Settings" />
+        <activity android:name=".PreviousAttendances"></activity>
     </application>
 
 </manifest>

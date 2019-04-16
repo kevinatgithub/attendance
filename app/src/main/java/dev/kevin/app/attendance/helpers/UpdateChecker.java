@@ -1,19 +1,17 @@
-package dev.kevin.app.attendance;
+package dev.kevin.app.attendance.helpers;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 
 import com.android.volley.Request;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
-import dev.kevin.app.attendance.helpers.ApiCallManager;
-import dev.kevin.app.attendance.helpers.AppConstants;
-import dev.kevin.app.attendance.helpers.Callback;
-import dev.kevin.app.attendance.helpers.CallbackWithResponse;
-import dev.kevin.app.attendance.helpers.DialogHelper;
+import dev.kevin.app.attendance.R;
 
 public class UpdateChecker {
 
@@ -39,12 +37,23 @@ public class UpdateChecker {
     }
 
     private static void confirmUpdate(final Activity activity) {
-        DialogHelper.confirm(activity, "Update Required!", "You are using an older version of the app.\nPlease update your app to continue.", new Callback() {
-            @Override
-            public void execute() {
-                performUpdate(activity);
-            }
-        });
+
+        new AlertDialog.Builder(activity)
+                .setTitle("Update Required!")
+                .setMessage("You are using an older version of the app.\nPlease update your app to continue.")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        performUpdate(activity);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        confirmUpdate(activity);
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     private static void performUpdate(Activity activity) {
