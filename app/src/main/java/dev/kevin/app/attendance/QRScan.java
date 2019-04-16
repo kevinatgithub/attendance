@@ -23,6 +23,7 @@ import java.io.IOException;
 
 import dev.kevin.app.attendance.helpers.Session;
 
+import static com.google.android.gms.vision.CameraSource.CAMERA_FACING_BACK;
 import static com.google.android.gms.vision.CameraSource.CAMERA_FACING_FRONT;
 
 public class QRScan extends Activity {
@@ -45,7 +46,7 @@ public class QRScan extends Activity {
         txtPreview = findViewById(R.id.txtResult);
         barcodeDetector = new BarcodeDetector.Builder(this).setBarcodeFormats(Barcode.QR_CODE).build();
         cameraSource = new CameraSource.Builder(this, barcodeDetector)
-                .setFacing(CAMERA_FACING_FRONT)
+                .setFacing(CAMERA_FACING_BACK )
                 .setAutoFocusEnabled(true)
                 .build();
 
