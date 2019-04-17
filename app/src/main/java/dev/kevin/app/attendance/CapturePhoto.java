@@ -31,7 +31,7 @@ public class CapturePhoto extends Activity {
     private Camera.PictureCallback mPicture;
     private Context myContext;
     private LinearLayout cameraPreview;
-    private boolean cameraFront = false;
+    private boolean cameraFront = true;
     public static Bitmap bitmap;
     private String base64converted;
     Session session;
