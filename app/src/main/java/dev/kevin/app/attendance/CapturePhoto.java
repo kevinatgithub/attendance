@@ -207,7 +207,7 @@ public class CapturePhoto extends Activity {
             @Override
             protected String doInBackground(Void... voids) {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                imageBitmap.compress(Bitmap.CompressFormat.JPEG,50,baos);
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG,20,baos);
                 byte[] b = baos.toByteArray();
 
                 return Base64.encodeToString(b,Base64.NO_WRAP);

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +36,8 @@ import dev.kevin.app.attendance.models.Member;
 public class SubmitResult extends AppCompatActivity {
 
     ImageView imgStatus;
-    TextView txtStatus;
+    ProgressBar pbLoading;
+    TextView txtStatus, lblLoading;
     ListView lvHistory;
     ApiCallManager apiCallManager;
     Session session;
@@ -54,6 +56,8 @@ public class SubmitResult extends AppCompatActivity {
         gson = new Gson();
         imgStatus = findViewById(R.id.imgStatus);
         txtStatus = findViewById(R.id.txtStatus);
+        pbLoading = findViewById(R.id.pbLoading);
+        lblLoading = findViewById(R.id.lblLoading);
         lvHistory = findViewById(R.id.lvHistory);
         cl_status = findViewById(R.id.cl_status);
         cl_exists = findViewById(R.id.cl_exists);
@@ -101,6 +105,8 @@ public class SubmitResult extends AppCompatActivity {
     }
 
     private void showInvalidQRDisplay() {
+        pbLoading.setVisibility(View.GONE);
+        lblLoading.setVisibility(View.GONE);
         cl_status.setVisibility(View.VISIBLE);
         clearSessionData();
         imgStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_failed));
@@ -141,7 +147,8 @@ public class SubmitResult extends AppCompatActivity {
 
     private void handleApiResponse(ApiResponse apiResponse) {
 
-
+        pbLoading.setVisibility(View.GONE);
+        lblLoading.setVisibility(View.GONE);
 
         cl_status.setVisibility(View.VISIBLE);
         if(apiResponse.getStatus().toUpperCase().equals("OK")) {

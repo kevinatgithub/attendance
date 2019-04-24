@@ -23,8 +23,8 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
 
-        <activity android:name=".Introduction"></activity>
-        <activity android:name=".Main">
+        <activity android:name=".Introduction" android:launchMode="singleTask"></activity>
+        <activity android:name=".Main" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,17 +33,24 @@
         </activity>
         <activity
             android:name=".BarcodeScan"
-            android:theme="@style/Theme.noAnim" />
+            android:theme="@style/Theme.noAnim"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".QRScan"
-            android:theme="@style/Theme.noAnim" />
+            android:theme="@style/Theme.noAnim"
+            android:launchMode="singleTask"/>
         <activity
             android:name=".CapturePhoto"
-            android:theme="@style/Theme.noAnim" />
-        <activity android:name=".SubmitResult" />
-        <activity android:name=".ShowServerResponse" />
-        <activity android:name=".Settings" />
-        <activity android:name=".PreviousAttendances"></activity>
+            android:theme="@style/Theme.noAnim"
+            android:launchMode="singleTask"/>
+        <activity android:name=".SubmitResult"
+            android:launchMode="singleTask"/>
+        <activity android:name=".ShowServerResponse"
+            android:launchMode="singleTask"/>
+        <activity android:name=".Settings"
+            android:launchMode="singleTask"/>
+        <activity android:name=".PreviousAttendances"
+            android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>

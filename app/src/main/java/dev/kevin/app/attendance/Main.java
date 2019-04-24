@@ -164,19 +164,29 @@ public class Main extends AppCompatActivity {
     }
 
     private boolean validateForm(){
-        if(txtFname.getText().length() > 1 && txtLname.getText().length() > 1){
-            tlFname.setError(null);
-            tlLname.setError(null);
-            return true;
-        }
+//        if(txtFname.getText().length() > 1 && txtLname.getText().length() > 1){
+//            tlFname.setError(null);
+//            tlLname.setError(null);
+//            return true;
+//        }
+        int errors = 0;
         if(txtFname.getText().length() <= 1){
-            tlFname.setError("Please enter your Given/First name");
+            if(txtLname.getText().length() <= 1){
+                tlFname.setError("Please enter your Given/First name");
+                errors++;
+            }
         }
 
         if(txtLname.getText().length() <= 1){
-            tlLname.setError("Please enter your Family/Last Name");
+            if(txtFname.getText().length() <= 1){
+                tlLname.setError("Please enter your Family/Last Name");
+                errors++;
+            }
         }
-        return false;
+        if(errors > 0){
+            return false;
+        }
+        return true;
     }
 
     private void verifiy(){
