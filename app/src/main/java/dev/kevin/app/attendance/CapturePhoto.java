@@ -31,7 +31,7 @@ public class CapturePhoto extends Activity {
     private Camera.PictureCallback mPicture;
     private Context myContext;
     private LinearLayout cameraPreview;
-    private boolean cameraFront = false;
+    private boolean cameraFront = true;
     public static Bitmap bitmap;
     private String base64converted;
     Session session;
@@ -54,7 +54,7 @@ public class CapturePhoto extends Activity {
         cameraPreview.addView(mPreview);
         final Vibrator vibrator = (Vibrator) getApplicationContext().getSystemService(VIBRATOR_SERVICE);
 
-        new CountDownTimer(3000, 1000) {
+        new CountDownTimer(5000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 if((millisUntilFinished / 1000) < 5){
