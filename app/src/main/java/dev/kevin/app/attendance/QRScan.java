@@ -108,6 +108,12 @@ public class QRScan extends Activity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        assignQR("1|2|bm");
+    }
+
     private void assignQR(String qrcode) {
         Vibrator vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
         vibrator.vibrate(100);

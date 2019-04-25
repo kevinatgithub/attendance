@@ -269,7 +269,9 @@ public class Main extends AppCompatActivity {
 
     private void proceed(){
 
-        Intent intent = new Intent(getApplicationContext(),QRScan.class);
+        session.setQRCode("1|2|bm");
+        session.setPhoto("");
+        Intent intent = new Intent(getApplicationContext(),SubmitResult.class);
         startActivity(intent);
 //        finish();
         session.setMember(member);
